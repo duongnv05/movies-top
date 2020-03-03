@@ -1,0 +1,68 @@
+._movie-block {
+  display: flex;
+  flex-direction: column;
+  /* width: 45%; */
+  width: calc(33.33% - 10px);
+  margin: 10px 5px 0 5px;
+  min-width: 300px;
+  cursor: pointer;
+}
+._movie-block:hover {
+  background-color: white;
+  box-shadow: 1px 1px 5px #ffffff;
+}
+._movie-block:hover p {
+  color: black;
+}
+
+/*  VOTE INFO  */
+._movie-block .vote-info {
+  background-color: rgba(0, 0, 0, 0.37);
+  width: 30%;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  /* border-radius: 4px; */
+}
+._movie-block .vote-info p {
+  color: white !important;
+}
+._movie-block .vote-info .voted-average {
+  font-size: 14px;
+}
+._movie-block .vote-info .voted-average span {
+  display: inline-block;
+  background-color: #ffc800;
+  border: 1px solid #000000;
+  color: black;
+  font-weight: 600;
+  padding: 3px;
+  border-radius: 4px
+}
+._movie-block .vote-info .voted-count {
+  margin-top: 2px;
+}
+
+._movie-block .top-control {
+  /* background-image: url(https://image.tmdb.org/t/p/w300/pVGzV02qmHVoKx9ehBNy7m2u5fs.jpg); */
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  height: 170px;
+}
+/* BOTTOM INFO */
+._movie-block .txt-title {
+  font-weight: 600;
+  line-height: 25px;
+}
+._movie-block .txt-desc {
+  width: calc(100% - 20px);
+  overflow:hidden;
+  height:25px;
+  line-height:15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+}
