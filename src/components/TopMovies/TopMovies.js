@@ -1,57 +1,38 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import MovieBlock from './MovieBlock';
 
 import './TopMovies.css';
 import { API_KEY, URL_REQUEST } from '../../config';
 
-class TopMovies extends Component {
-  constructor() {
-    super();
+function TopMovies() {
+  const [moviesTop, setMoviesTop] = useState([]);
+  const [moviesTopFiltered, setMoviesTopFiltered] = useState([]);
+  const [prefixFilter, setPrefixFilter] = useState('');
+  const [page, setPage] = useState(1);
 
-    this.state = {
-      moviesTop: [],
-      moviesTopFiltered: [],
-      prefixFilter: '',
-      page: 1,
-      total_pages: 0,
-      total_results: 0
-    }
-
-    this.handleChangeFilter = this.handleChangeFilter.bind(this);
-  }
-
-  componentDidMount() {
-    const { page } = this.state;
+  useEffect(() => {
+    console.log('constructor')
     // fetch api get data
     fetch(`${URL_REQUEST}/top_rated?api_key=${API_KEY}&language=en-US&page=${page}`)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
-        this.setState({
-          moviesTop: data.results,
-          page: data.page,
-          total_pages: data.total_pages,
-          total_results: data.total_results,
-          moviesTopFiltered: this.onHandleFilter(this.state.prefixFilter, data.results)
-        })
+        setMoviesTop(data.results);
+        setPage(data.page);
+        setMoviesTopFiltered(onHandleFilter(prefixFilter, data.results));
       })
       .catch(err => console.log(err));
-  }
+  }, []);
 
-  handleChangeFilter(event) {
-    console.log(event)
+  function handleChangeFilter(event) {
     let prefix = event.target.value;
-
-    this.setState({
-      prefixFilter: prefix,
-      moviesTopFiltered: this.onHandleFilter(prefix, this.state.moviesTop)
-    })
+    
+    setPrefixFilter(prefix);
+    setMoviesTopFiltered(onHandleFilter(prefix, moviesTop));
   }
 
-  onHandleFilter(prefixFilter='', input=[]) {
+  function onHandleFilter(prefixFilter='', input=[]) {
     let output = [];
-    console.log("input", input)
     if(prefixFilter == '') {
       return input;
     }
@@ -65,11 +46,9 @@ class TopMovies extends Component {
 
     return output;
   }
-
-  render() {
-    const { moviesTop, prefixFilter, moviesTopFiltered } = this.state;
-    return(
-      <div className="_top-movies">
+  
+  return (
+    <div className="_top-movies">
         {/* Search Input */}
         <div className="container-search">
           <div className="search-input">
@@ -78,7 +57,7 @@ class TopMovies extends Component {
               placeholder="search movie" 
               name="prefixFiter" 
               defaultValue={prefixFilter} 
-              onChange={(e) => this.handleChangeFilter(e)}
+              onChange={(e) => handleChangeFilter(e)}
             />
             <i className="material-icons">search</i>
           </div>
@@ -94,8 +73,7 @@ class TopMovies extends Component {
         </div>
         {/* Pagination */}
       </div>
-    )
-  }
+  )
 }
 
 export default TopMovies;
